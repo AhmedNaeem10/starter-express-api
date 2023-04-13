@@ -1,5 +1,5 @@
 const { Category } = require('./Category');
-const {sequelize, DataTypes} = require('../db/dbConnection');
+const { sequelize, DataTypes } = require('../db/dbConnection');
 
 exports.Product = sequelize.define('Product', {
   product_id: {
@@ -26,11 +26,14 @@ exports.Product = sequelize.define('Product', {
     type: DataTypes.INTEGER,
     references: {
       model: Category,
-      key: 'category_id',
     }
   },
+  active: {
+    type: DataTypes.BOOLEAN
+  }
 }, {
-    timestamps: false,
-    createdAt: false,
-    updatedAt: false,
-});
+  timestamps: false,
+  createdAt: false,
+  updatedAt: false,
+}
+);

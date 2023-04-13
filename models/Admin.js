@@ -1,16 +1,12 @@
 const { sequelize, DataTypes } = require('../db/dbConnection');
 
-exports.TasteProfile = sequelize.define('TasteProfile', {
-  tasteProfile_id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
+exports.Admin = sequelize.define('Admin', {
+  username: {
+    type: DataTypes.STRING,
     primaryKey: true
   },
-  title: {
+  password: {
     type: DataTypes.STRING
-  },
-  image: {
-    type: DataTypes.BLOB
   },
 }, {
   timestamps: false,
