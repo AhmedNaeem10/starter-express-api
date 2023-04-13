@@ -9,17 +9,7 @@ exports.Orderline = sequelize.define('Orderline', {
     primaryKey: true
   },
   quantity: {
-    type: DataTypes.DATE
-  },
-  order_id: {
-    type: DataTypes.FLOAT,
-    references: {
-      // This is a reference to another model
-      model: Order,
-
-      // This is the column name of the referenced model
-      key: 'order_id',
-    }
+    type: DataTypes.INTEGER
   },
   product_id: {
     type: DataTypes.INTEGER,
@@ -29,6 +19,16 @@ exports.Orderline = sequelize.define('Orderline', {
 
       // This is the column name of the referenced model
       key: 'product_id',
+    }
+  },
+  order_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      // This is a reference to another model
+      model: Order,
+
+      // This is the column name of the referenced model
+      key: 'order_id',
     }
   }
 }, {

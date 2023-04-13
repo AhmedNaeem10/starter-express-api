@@ -1,5 +1,5 @@
 const { sequelize, DataTypes } = require('../db/dbConnection');
-const { Product } = require('./Product');
+const { PaymentMethod } = require('./PaymentMethod');
 
 exports.Order = sequelize.define('Order', {
   order_id: {
@@ -13,14 +13,14 @@ exports.Order = sequelize.define('Order', {
   bill: {
     type: DataTypes.FLOAT
   },
-  paymentMethod: {
+  paymentMethod_id: {
     type: DataTypes.INTEGER,
     references: {
       // This is a reference to another model
-      model: Product,
+      model: PaymentMethod,
 
       // This is the column name of the referenced model
-      key: 'product_id',
+      key: 'paymentMethod_id',
     }
   }
 }, {

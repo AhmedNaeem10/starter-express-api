@@ -13,7 +13,7 @@ exports.Category = sequelize.define('Category', {
     type: DataTypes.STRING,
   },
   image: {
-    type: DataTypes.BLOB,
+    type: DataTypes.STRING,
   },
   parentCategory: {
     type: DataTypes.INTEGER,

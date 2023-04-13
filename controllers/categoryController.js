@@ -1,9 +1,11 @@
 const { DbContext } = require("../models")
+const fs = require("fs");
 
 exports.addCategory = async (req, res) => {
     try{
         const body = req.body;
-        const category = await DbContext.Category.create(body);
+        const file = req.file;
+        const category = await DbContext.Category.create({ ...body, image: file.path });
         res.json({ code: 200, result: category });
     }catch(err){
         res.json({ code: 400, result: null, error: err.message })
@@ -34,7 +36,11 @@ exports.updateCategory = async (req, res) => {
 exports.getSubCategories = async (req, res) => {
     try{
         const {id} = req.params;
-        const categories = await DbContext.Category.findAll({where: {parentCategory: id}})
+        let categories = await DbContext.Category.findAll({where: {parentCategory: id}})
+        for (let x = 0; x < categories.length; x++) {
+            let imageData = fs.readFileSync(categories[x].image, "base64");
+            categories[x]["image"] = imageData
+        }
         res.json({ code: 200, result: categories });
     }catch(err){
         res.json({ code: 400, result: null, error: err.message })
@@ -43,7 +49,11 @@ exports.getSubCategories = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
     try {
-        const categories = await DbContext.Category.findAll({where: {parentCategory: null}});
+        let categories = await DbContext.Category.findAll({where: {parentCategory: null}});
+        for (let x = 0; x < categories.length; x++) {
+            let imageData = fs.readFileSync(categories[x].image, "base64");
+            categories[x]["image"] = imageData
+        }
         res.json({ code: 200, result: categories });
     } catch (err) {
         res.json({ code: 400, result: null, error: err.message })

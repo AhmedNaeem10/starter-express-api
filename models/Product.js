@@ -20,7 +20,7 @@ exports.Product = sequelize.define('Product', {
     type: DataTypes.STRING
   },
   image: {
-    type: DataTypes.BLOB
+    type: DataTypes.STRING
   },
   category_id: {
     type: DataTypes.INTEGER,

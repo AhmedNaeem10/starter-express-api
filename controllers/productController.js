@@ -1,21 +1,24 @@
 const { DbContext } = require("../models");
-const { Category } = require("../models/Category");
-const { ProductTasteProfile } = require("../models/ProductTasteProfile");
+const fs = require("fs");
 
 exports.addProduct = async (req, res) => {
     try {
         const body = req.body;
-        const product = await DbContext.Product.create(body);
+        const file = req.file;
+        const product = await DbContext.Product.create({ ...body, image: file.path });
         res.json({ code: 200, result: product })
     } catch (err) {
-        res.json(err.message);
+        res.json({ code: 400, error: err.message });
     }
 }
 
 exports.getProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await DbContext.Product.findOne({ include: { model: DbContext.TasteProfile } }, { where: { product_id: id } });
+        let product = await DbContext.Product.findOne({ where: { product_id: id } }, { include: { model: DbContext.TasteProfile } });
+        console.log(product.product_id)
+        let imageData = fs.readFileSync(product.image, "base64");
+        product["image"] = imageData;
         res.json({ code: 200, result: product, error: null });
     } catch (err) {
         res.json({ code: 400, result: null, error: err.message })
@@ -24,7 +27,11 @@ exports.getProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await DbContext.Product.findAll();
+        let products = await DbContext.Product.findAll();
+        for (let x = 0; x < products.length; x++) {
+            let imageData = fs.readFileSync(products[x].image, "base64");
+            products[x]["image"] = imageData
+        }
         res.json({ code: 200, result: products, error: null });
     } catch (err) {
         res.json({ code: 400, result: null, error: err.message })
@@ -55,8 +62,7 @@ exports.updateProduct = async (req, res) => {
 exports.getProductsByCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const body = req.body;
-        const products = await DbContext.Product.findAll(body, { where: { category_id: id } });
+        const products = await DbContext.Product.findAll({ where: { category_id: id } });
         res.json({ code: 200, result: products, error: null });
     } catch (err) {
         res.json({ code: 400, result: null, error: err.message })

@@ -36,3 +36,16 @@ exports.PRODUCT_TASTE_PROFILE = {
     ADD_PRODUCT_TASTE_PROFILE: "/addProductTasteProfile/:id",
     GET_PRODUCT_TASTE_PROFILE: "/getProductTasteProfile/:id"
 }
+
+exports.ORDERS = {
+    ADD_ORDER: "/addOrder",
+
+}
+
+exports.PAYMENT_METHODS = {
+    ADD_PAYMENT_METHOD: "/addPaymentMethod",
+    DELETE_PAYMENT_METHOD: "/deletePaymentMethod/:id",
+    UPDATE_PAYMENT_METHOD: "/updatePaymentMethod/:id",
+    GET_PAYMENT_METHODS: "/paymentMethods",
+    GET_PAYMENT_METHOD: "/paymentMethod/:id"
+}
