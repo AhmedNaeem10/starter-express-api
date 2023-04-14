@@ -18,3 +18,12 @@ exports.addOrder = async (req, res) => {
         res.json({ code: 400, result: null, error: err.message })
     }
 }
+
+exports.getOrders = async (req, res) => {
+    try{
+        const orders = await DbContext.Order.findAll();
+        res.json({ code: 200, result: orders });
+    }catch(err){
+        res.json({ code: 400, result: null, error: err.message })
+    }
+}

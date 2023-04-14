@@ -39,7 +39,7 @@ exports.PRODUCT_TASTE_PROFILE = {
 
 exports.ORDERS = {
     ADD_ORDER: "/addOrder",
-
+    GET_ORDERS: "/orders"
 }
 
 exports.PAYMENT_METHODS = {
