@@ -4,7 +4,7 @@ CREATE TABLE `Products` (
 	`quantity` INT NOT NULL,
 	`description` VARCHAR(255) NOT NULL,
 	`title` VARCHAR(255) NOT NULL,
-	`image` blob,
+	`image` VARCHAR(255),
 	`category_id` INT NOT NULL,
 	`active` BOOLEAN NOT NULL,
 	PRIMARY KEY (`product_id`)
@@ -29,7 +29,7 @@ CREATE TABLE `OrderLines` (
 CREATE TABLE `TasteProfiles` (
 	`tasteProfile_id` INT NOT NULL AUTO_INCREMENT,
 	`title` VARCHAR(255) NOT NULL,
-	`image` blob,
+	`image` VARCHAR(255),
 	PRIMARY KEY (`tasteProfile_id`)
 );
 
@@ -41,10 +41,10 @@ CREATE TABLE `PaymentMethods` (
 
 CREATE TABLE `Categories` (
 	`category_id` INT NOT NULL AUTO_INCREMENT,
-	`image` blob,
+	`image` VARCHAR(255),
 	`title` VARCHAR(255) NOT NULL,
 	`description` VARCHAR(255) NOT NULL,
-	`parentCategory` INT,
+	`parentCategory` VARCHAR(255),
 	PRIMARY KEY (`category_id`)
 );
 
@@ -60,6 +60,30 @@ CREATE TABLE `ProductTasteProfles` (
 	PRIMARY KEY (`product_id`,`tasteProfile_id`)
 );
 
+CREATE TABLE `AddOns` (
+	`addon_id` INT NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL,
+	`image` VARCHAR(255),
+	PRIMARY KEY (`addon_id`)
+);
+
+CREATE TABLE `ProductAddOns` (
+	`product_id` INT NOT NULL,
+	`addon_id` INT NOT NULL,
+	PRIMARY KEY (`product_id`,`addon_id`)
+);
+
+CREATE TABLE `BusinessInfos` (
+	`businessInfo_id` INT NOT NULL AUTO_INCREMENT,
+	`allergens` VARCHAR(255) NOT NULL,
+	`about` VARCHAR(255) NOT NULL,
+	`termsOfSale` VARCHAR(255) NOT NULL,
+	`ingredients` VARCHAR(255) NOT NULL,
+	`email` VARCHAR(255) NOT NULL,
+	`image` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`businessInfo_id`)
+);
+
 ALTER TABLE `Products` ADD CONSTRAINT `Products_fk0` FOREIGN KEY (`category_id`) REFERENCES `Categories`(`category_id`);
 
 ALTER TABLE `Orders` ADD CONSTRAINT `Orders_fk0` FOREIGN KEY (`paymentMethod`) REFERENCES `PaymentMethods`(`paymentMethod_id`);
@@ -73,4 +97,18 @@ ALTER TABLE `Categories` ADD CONSTRAINT `Categories_fk0` FOREIGN KEY (`parentCat
 ALTER TABLE `ProductTasteProfles` ADD CONSTRAINT `ProductTasteProfles_fk0` FOREIGN KEY (`product_id`) REFERENCES `Products`(`product_id`);
 
 ALTER TABLE `ProductTasteProfles` ADD CONSTRAINT `ProductTasteProfles_fk1` FOREIGN KEY (`tasteProfile_id`) REFERENCES `TasteProfiles`(`tasteProfile_id`);
+
+ALTER TABLE `ProductAddOns` ADD CONSTRAINT `ProductAddOns_fk0` FOREIGN KEY (`product_id`) REFERENCES `Products`(`product_id`);
+
+ALTER TABLE `ProductAddOns` ADD CONSTRAINT `ProductAddOns_fk1` FOREIGN KEY (`addon_id`) REFERENCES `AddOns`(`addon_id`);
+
+
+
+
+
+
+
+
+
+
 

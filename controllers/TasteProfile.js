@@ -57,3 +57,18 @@ exports.getTasteProfile = async (req, res) => {
         res.json({ code: 400, result: null, error: err.message })
     }
 }
+
+exports.getTasteProfilesByProduct = async (req, res) => {
+    try {
+        const { product_id } = req.params;
+        let tasteProfiles = await DbContext.ProductTasteProfile.findAll({ include: { model: DbContext.TasteProfile } } ,{ where: { product_id: product_id } });
+        console.log(tasteProfiles);
+        for (let x = 0; x < tasteProfiles.length; x++) {
+            let imageData = fs.readFileSync(tasteProfiles[x].TasteProfile.image, "base64");
+            tasteProfiles[x].TasteProfile["image"] = imageData
+        }
+        res.json({ code: 200, result: tasteProfiles });
+    } catch (err) {
+        res.json({ code: 400, error: err.message })
+    }
+}

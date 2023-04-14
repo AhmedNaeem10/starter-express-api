@@ -6,6 +6,10 @@ const { PaymentMethod } = require('./PaymentMethod');
 const { TasteProfile } = require('./TasteProfile');
 const { Admin } = require("./Admin")
 const { ProductTasteProfile } = require("./ProductTasteProfile")
+const { AddOn } = require("./AddOn")
+const { ProductAddOn } = require("./ProductAddOn")
+const { BusinessInfo } = require("./BusinessInfo")
+
 
 // relationships
 Category.hasMany(Product, {
@@ -14,6 +18,26 @@ Category.hasMany(Product, {
 Product.belongsTo(Category, {
     foreignKey: {
         name: 'category_id'
+    }
+});
+
+AddOn.hasMany(ProductAddOn, {
+    foreignKey: 'addon_id'
+});
+
+ProductAddOn.belongsTo(AddOn, {
+    foreignKey: {
+        name: 'addon_id'
+    }
+});
+
+TasteProfile.hasMany(ProductTasteProfile, {
+    foreignKey: 'tasteProfile_id'
+});
+
+ProductTasteProfile.belongsTo(TasteProfile, {
+    foreignKey: {
+        name: 'tasteProfile_id'
     }
 });
 
@@ -31,10 +55,32 @@ TasteProfile.belongsToMany(Product, {
     }
 })
 
+Product.belongsToMany(AddOn, {
+    through: 'ProductAddOn',
+    foreignKey: {
+        name: 'product_id'
+    }
+});
 
+AddOn.belongsToMany(Product, {
+    through: 'ProductAddOn',
+    foreignKey: {
+        name: 'addon_id'
+    }
+})
 
 
 // combine models as a DbContext
 exports.DbContext = {
-    Product, Category, Order, Orderline, PaymentMethod, TasteProfile, Admin, ProductTasteProfile
+    Product, 
+    Category, 
+    Order, 
+    Orderline, 
+    PaymentMethod, 
+    TasteProfile, 
+    Admin, 
+    ProductTasteProfile,
+    BusinessInfo,
+    AddOn,
+    ProductAddOn,
 };

@@ -15,13 +15,12 @@ exports.addProduct = async (req, res) => {
 exports.getProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        let product = await DbContext.Product.findOne({ where: { product_id: id } }, { include: { model: DbContext.TasteProfile } });
-        console.log(product.product_id)
+        let product = await DbContext.Product.findOne({ where: { product_id: id } });
         let imageData = fs.readFileSync(product.image, "base64");
         product["image"] = imageData;
-        res.json({ code: 200, result: product, error: null });
+        res.json({ code: 200, result: product });
     } catch (err) {
-        res.json({ code: 400, result: null, error: err.message })
+        res.json({ code: 400, error: err.message })
     }
 }
 
@@ -32,9 +31,9 @@ exports.getAllProducts = async (req, res) => {
             let imageData = fs.readFileSync(products[x].image, "base64");
             products[x]["image"] = imageData
         }
-        res.json({ code: 200, result: products, error: null });
+        res.json({ code: 200, result: products });
     } catch (err) {
-        res.json({ code: 400, result: null, error: err.message })
+        res.json({ code: 400, error: err.message })
     }
 }
 

@@ -15,6 +15,8 @@ require("./requests/productTasteProfile")(app);
 require("./requests/tasteProfile")(app);
 require("./requests/order")(app);
 require("./requests/paymentMethod")(app);
+require("./requests/businessInfo")(app);
+require("./requests/addOn")(app);
 
 app.get(APP.BASE, (req, res) => {
     res.json("Server is alive!");
