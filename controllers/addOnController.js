@@ -73,8 +73,14 @@ exports.updateAddOn = async (req, res) => {
     try {
         const { id } = req.params;
         const body = req.body;
-        const addOn = await DbContext.AddOn.update(body, { where: { addOn_id: id } });
-        res.json({ code: 200, result: addOn[0] });
+        const file = req.file;
+        if(file){
+            const addOn = await DbContext.AddOn.update({...body, image: file.path}, { where: { addOn_id: id } });
+            res.json({ code: 200, result: addOn[0] });
+        }else{
+            const addOn = await DbContext.AddOn.update(body, { where: { addOn_id: id } });
+            res.json({ code: 200, result: addOn[0] });
+        } 
     } catch (err) {
         res.json({ code: 400, error: err.message })
     }
@@ -86,6 +92,16 @@ exports.deleteAddOn = async (req, res) => {
         const addOn = await DbContext.AddOn.destroy({ where: { addOn_id: id } })
         res.json({ code: 200, result: addOn });
     } catch (err) {
+        res.json({ code: 400, error: err.message })
+    }
+}
+
+exports.deleteAddons = async (req, res) => {
+    try{
+        const {addons} = req.body;
+        const deleted = await DbContext.AddOn.destroy({ where: { addOn_id: addons } })
+        res.json({ code: 200, result: "success" });
+    }catch(err){
         res.json({ code: 400, error: err.message })
     }
 }

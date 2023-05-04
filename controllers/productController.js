@@ -5,7 +5,15 @@ exports.addProduct = async (req, res) => {
     try {
         const body = req.body;
         const file = req.file;
-        const product = await DbContext.Product.create({ ...body, image: file.path });
+        const body_ = {
+            price: parseFloat(body.price),
+            quantity: parseInt(body.quantity),
+            category_id: parseInt(body.category_id),
+            title: body.title,
+            description: body.description,
+            active: body.active == 'true'
+        }
+        const product = await DbContext.Product.create({ ...body_, image: file.path });
         res.json({ code: 200, result: product })
     } catch (err) {
         res.json({ code: 400, error: err.message });
@@ -26,7 +34,7 @@ exports.getProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
     try {
-        let products = await DbContext.Product.findAll();
+        let products = await DbContext.Product.findAll({ include: { model: DbContext.Category } });
         for (let x = 0; x < products.length; x++) {
             let imageData = fs.readFileSync(products[x].image, "base64");
             products[x]["image"] = imageData
@@ -47,12 +55,37 @@ exports.deleteProduct = async (req, res) => {
     }
 }
 
+exports.deleteProducts = async (req, res) => {
+    try {
+        const { products } = req.body;
+        const deleted = await DbContext.Product.destroy({ where: { product_id: products } });
+        res.json({ code: 200, result: "success" });
+    } catch (err) {
+        res.json({ code: 400, result: null, error: err.message })
+    }
+}
+
 exports.updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
         const body = req.body;
-        const product = await DbContext.Product.update(body, { where: { product_id: id } });
-        res.json({ code: 200, result: product[0], error: null });
+        const file = req.file;
+        const body_ = {
+            id: id,
+            price: parseFloat(body.price),
+            quantity: parseInt(body.quantity),
+            category_id: parseInt(body.category_id),
+            title: body.title,
+            description: body.description,
+            active: body.active == 'true'
+        }
+        if (file) {
+            const product = await DbContext.Product.update({ ...body_, image: file.path }, { where: { product_id: id } });
+            res.json({ code: 200, result: product[0], error: null });
+        } else {
+            const product = await DbContext.Product.update(body_, { where: { product_id: id } });
+            res.json({ code: 200, result: product[0], error: null });
+        }
     } catch (err) {
         res.json({ code: 400, result: null, error: err.message })
     }
@@ -61,7 +94,11 @@ exports.updateProduct = async (req, res) => {
 exports.getProductsByCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const products = await DbContext.Product.findAll({ where: { category_id: id } });
+        let products = await DbContext.Product.findAll({ where: { category_id: id } });
+        for (let x = 0; x < products.length; x++) {
+            let imageData = fs.readFileSync(products[x].image, "base64");
+            products[x]["image"] = imageData
+        }
         res.json({ code: 200, result: products, error: null });
     } catch (err) {
         res.json({ code: 400, result: null, error: err.message })

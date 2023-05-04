@@ -12,6 +12,17 @@ const { BusinessInfo } = require("./BusinessInfo")
 
 
 // relationships
+Category.hasMany(Category, {
+    foreignKey: 'category_id',
+});
+
+Category.belongsTo(Category, {
+    foreignKey: {
+        name: 'parentCategory',
+    },
+    as: 'ParentCategory'
+});
+
 Category.hasMany(Product, {
     foreignKey: 'category_id'
 });

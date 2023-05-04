@@ -5,6 +5,7 @@ exports.APP = {
 exports.PRODUCTS = {
     ADD_PRODUCT: "/addProduct",
     DELETE_PRODUCT: "/deleteProduct/:id",
+    DELETE_PRODUCTS: "/deleteProducts",
     UPDATE_PRODUCT: "/updateProduct/:id",
     GET_PRODUCT: "/product/:id",
     GET_PRODUCTS: "/products",
@@ -19,9 +20,12 @@ exports.ADMIN = {
 exports.CATEGORIES = {
     GET_CATEGORIES: "/categories",
     GET_SUBCATEGORIES: "/subcategories/:id",
+    GET_CATEGORIES_ID_TITLE: "/categoriesBrief",
+    GET_ALL_CATEGORIES: "/allCategories",
     ADD_CATEGORY: "/addCategory",
     UPDATE_CATEGORY: "/updateCategory/:id",
-    DELETE_CATEGORY: "/deleteCategory/:id"
+    DELETE_CATEGORY: "/deleteCategory/:id",
+    DELETE_CATEGORIES: "/deleteCategories",
 }
 
 exports.TASTE_PROFILES = {
@@ -31,6 +35,7 @@ exports.TASTE_PROFILES = {
     ADD_TASTE_PROFILE: "/addTasteProfile",
     UPDATE_TASTE_PROFILE: "/updateTasteProfile/:id",
     DELETE_TASTE_PROFILE: "/deleteTasteProfile/:id",
+    DELETE_TASTE_PROFILES: "/deleteTasteProfiles",
 }
 
 exports.PRODUCT_TASTE_PROFILE = {
@@ -54,6 +59,7 @@ exports.PAYMENT_METHODS = {
 exports.BUSINESS_INFO = {
     ADD_BUSINESS_INFO: "/addBusinessInfo",
     GET_BUSINESS_INFO: "/businessInfo",
+    GET_CURRENT_BUSINESS_INFO: "/currentBusinessInfo",
     UPDATE_BUSINESS_INFO: "/updateBusinessInfo/:id",
     DELETE_BUSINESS_INFO: "/deleteBusinessInfo/:id"
 }
@@ -65,5 +71,6 @@ exports.ADD_ONS = {
     GET_ADD_ON: "/addOn/:id",
     GET_ADD_ONS_BY_PRODUCT: "/addOnsByProduct/:product_id",
     UPDATE_ADD_ON: "/updateAddOn/:id",
-    DELETE_ADD_ON: "/deleteAddOn/:id"
+    DELETE_ADD_ON: "/deleteAddOn/:id",
+    DELETE_ADDONS: "/deleteAddOns",
 }
