@@ -1,19 +1,17 @@
 const { DbContext } = require("../models")
 const { sequelize } = require("../db/dbConnection");
 
-exports.addTasteProfilesToProduct = async (req, res) => {
+exports.addTasteProfilesToProduct = async (id, tasteProfiles) => {
     try {
-        const { id } = req.params;
-        const { tasteProfiles } = req.body;
-        const result = await sequelize.transaction(async (t) => {
+       await sequelize.transaction(async (t) => {
             await DbContext.ProductTasteProfile.destroy({where: {product_id: id}}, { transaction: t });
             for(let tasteProfile_id of tasteProfiles){
                 await DbContext.ProductTasteProfile.create({product_id: id, tasteProfile_id}, { transaction: t });
             }
         });
-        res.json({code: 200, result: "success"})
+        return true;
     } catch (err) {
-        res.json({ code: 400, result: null, error: err.message })
+        return false;
     }
 }
 

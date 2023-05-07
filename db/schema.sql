@@ -84,6 +84,13 @@ CREATE TABLE `BusinessInfos` (
 	PRIMARY KEY (`businessInfo_id`)
 );
 
+SET SQL_SAFE_UPDATES = 0;
+ 
+select * from Products;
+select * from ProductTasteProfiles;
+select * from TasteProfiles;
+select * from ProductAddOns;
+
 ALTER TABLE `Products` ADD CONSTRAINT `Products_fk0` FOREIGN KEY (`category_id`) REFERENCES `Categories`(`category_id`);
 
 ALTER TABLE `Orders` ADD CONSTRAINT `Orders_fk0` FOREIGN KEY (`paymentMethod`) REFERENCES `PaymentMethods`(`paymentMethod_id`);

@@ -32,64 +32,51 @@ Product.belongsTo(Category, {
     }
 });
 
-AddOn.hasMany(ProductAddOn, {
-    foreignKey: 'addon_id'
-});
+// AddOn.belongsToMany(Product, { foreignKey: { name: 'product_id' }, through: ProductAddOn });
+// Product.belongsToMany(AddOn, { foreignKey: { name: 'addon_id' }, through: ProductAddOn })
 
-ProductAddOn.belongsTo(AddOn, {
-    foreignKey: {
-        name: 'addon_id'
-    }
-});
+// Product.belongsToMany(TasteProfile, { foreignKey: { name: 'tasteProfile_id' }, through: ProductTasteProfile });
+// TasteProfile.belongsToMany(Product, { foreignKey: { name: 'product_id' }, through: ProductTasteProfile })
 
-TasteProfile.hasMany(ProductTasteProfile, {
-    foreignKey: 'tasteProfile_id'
-});
+// TasteProfile.hasMany(ProductTasteProfile, {
+//     foreignKey: 'tasteProfile_id'
+// });
 
-ProductTasteProfile.belongsTo(TasteProfile, {
-    foreignKey: {
-        name: 'tasteProfile_id'
-    }
-});
-
-Product.belongsToMany(TasteProfile, {
-    through: 'ProductTasteProfile',
-    foreignKey: {
-        name: 'product_id'
-    }
-})
-
-TasteProfile.belongsToMany(Product, {
-    through: 'ProductTasteProfile',
-    foreignKey: {
-        name: 'tasteProfile_id'
-    }
-})
+// ProductTasteProfile.belongsTo(TasteProfile, {
+//     foreignKey: {
+//         name: 'tasteProfile_id'
+//     }
+// });
 
 Product.belongsToMany(AddOn, {
     through: 'ProductAddOn',
-    foreignKey: {
-        name: 'product_id'
-    }
+    foreignKey: 'product_id'
 });
 
 AddOn.belongsToMany(Product, {
     through: 'ProductAddOn',
-    foreignKey: {
-        name: 'addon_id'
-    }
+    foreignKey: 'addon_id'
 })
 
+Product.belongsToMany(TasteProfile, {
+    through: 'ProductTasteProfile',
+    foreignKey: 'product_id'
+})
+
+TasteProfile.belongsToMany(Product, {
+    through: 'ProductTasteProfile',
+    foreignKey: 'tasteProfile_id'
+})
 
 // combine models as a DbContext
 exports.DbContext = {
-    Product, 
-    Category, 
-    Order, 
-    Orderline, 
-    PaymentMethod, 
-    TasteProfile, 
-    Admin, 
+    Product,
+    Category,
+    Order,
+    Orderline,
+    PaymentMethod,
+    TasteProfile,
+    Admin,
     ProductTasteProfile,
     BusinessInfo,
     AddOn,

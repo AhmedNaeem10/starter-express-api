@@ -40,21 +40,19 @@ exports.getAddOnsByProduct = async (req, res) => {
     }
 }
 
-exports.addAddOnsToProduct = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { addOns } = req.body;
-        const result = await sequelize.transaction(async (t) => {
+exports.addAddOnsToProduct = async (id, addons) => {
+    // try {
+        console.log(addons)
+        return await sequelize.transaction(async (t) => {
             await DbContext.ProductAddOn.destroy({ where: { product_id: id } }, { transaction: t });
-            for (let addon_id of addOns) {
+            for (let addon_id of addons) {
                 await DbContext.ProductAddOn.create({ product_id: id, addon_id }, { transaction: t });
             }
-            return "success";
+            return true
         });
-        res.json({ code: 200, result: result });
-    } catch (err) {
-        res.json({ code: 400, error: err.message })
-    }
+    // } catch (err) {
+    //     return false;
+    // }
 }
 
 exports.getAddOn = async (req, res) => {
